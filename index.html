@@ -4,14 +4,66 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lector pdf417</title>
+    
 </head>
 <body>
-    <div id="your-scanner-element" style="width: 100%;"></div>
-     <!-- Resultado y error -->
-     <h2 id="result"></h2>
-     <h2 id="error"></h2>
-     <script src="https://cdn.rawgit.com/serratus/quaggaJS/master/dist/quagga.min.js"></script>
+    <style>
+        main {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        #reader {
+            width: 600px;
+        }
+        #result {
+            text-align: center;
+            font-size: 1.5rem;
+        }
+    </style>
+    <div id="reader"></div>
+    <div id="result"></div>
 
- <script src="app.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.4/html5-qrcode.min.js" integrity="sha512-k/KAe4Yff9EUdYI5/IAHlwUswqeipP+Cp5qnrsUjTPCgl51La2/JhyyjNciztD7mWNKLSXci48m7cctATKfLlQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script>
+
+        const scanner = new Html5QrcodeScanner('reader', { 
+            // Scanner will be initialized in DOM inside element with id of 'reader'
+            qrbox: {
+                width: 350,
+                height: 250,
+            },  // Sets dimensions of scanning box (set relative to reader element width)
+            fps: 20, // Frames per second to attempt a scan
+        });
+    
+    
+        scanner.render(success, error);
+        // Starts scanner
+    
+        function success(result) {
+    
+            document.getElementById('result').innerHTML = `
+            <h2>Success!</h2>
+            <p><a href="${result}">${result}</a></p>
+            `;
+            // Prints result as a link inside result element
+    
+            scanner.clear();
+            // Clears scanning instance
+    
+            document.getElementById('reader').remove();
+            // Removes reader element from DOM since no longer needed
+        
+        }
+    
+        function error(err) {
+            console.error(err);
+            // Prints any errors to the console
+        }
+    
+    </script>
+
+ 
 </body>
 </html>
